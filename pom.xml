@@ -77,27 +77,37 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.plugin.wildfly}</version>
-                <configuration>
-                    <hostname>${wildfly-hostname}</hostname>
-                    <port>${wildfly-port}</port>
-                    <username>${wildfly-username}</username>
-                    <password>${wildfly-password}</password>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>deploy</phase> 
-                        <goals>
-                            <goal>deploy</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
+    
+    <profiles>
+        <profile>
+            <id>deploy-to-container</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <version>${version.plugin.wildfly}</version>
+                        <configuration>
+                            <hostname>${wildfly-hostname}</hostname>
+                            <port>${wildfly-port}</port>
+                            <username>${wildfly-username}</username>
+                            <password>${wildfly-password}</password>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>install</phase> 
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
     <dependencies>
         <dependency>
             <groupId>javax</groupId>
