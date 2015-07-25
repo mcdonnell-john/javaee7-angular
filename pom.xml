@@ -23,10 +23,15 @@
         <version.plugin.war>2.4</version.plugin.war>
         <version.plugin.jgitflow>1.0-m3</version.plugin.jgitflow>
         <version.plugin.jrebel>1.1.5</version.plugin.jrebel>
-        <version.plugin.wildfly>1.1.0.Alpha1</version.plugin.wildfly>
+        <version.plugin.wildfly>1.0.2.Final</version.plugin.wildfly>
 
         <!-- Dependencies -->
         <version.dependency.javaee>7.0</version.dependency.javaee>
+        
+        <wildfly-hostname>WILDFLY_CONTAINER</wildfly-hostname>
+        <wildfly-port>9990</wildfly-port>
+        <wildfly-username>admin</wildfly-username>
+        <wildfly-password>Admin#70365</wildfly-password>
     </properties>
 
     <build>
@@ -72,39 +77,27 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>external.atlassian.jgitflow</groupId>
-                <artifactId>jgitflow-maven-plugin</artifactId>
-                <version>${version.plugin.jgitflow}</version>
-                <configuration>
-                    <noDeploy>true</noDeploy>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.zeroturnaround</groupId>
-                <artifactId>jrebel-maven-plugin</artifactId>
-                <version>${version.plugin.jrebel}</version>
-                <executions>
-                    <execution>
-                        <id>generate-rebel-xml</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>${version.plugin.wildfly}</version>
+                <configuration>
+                    <hostname>${wildfly-hostname}</hostname>
+                    <port>${wildfly-port}</port>
+                    <username>${wildfly-username}</username>
+                    <password>${wildfly-password}</password>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase> 
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
-
     <dependencies>
         <dependency>
             <groupId>javax</groupId>
